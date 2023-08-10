@@ -27,30 +27,30 @@ public class SearchEngineImpl implements ISearchEngine {
      */
     @Override
     public List<DataAttribute> SearchSingleAttribute(List<DataAttribute> dataList, String keyword, String value) {
-        List<DataAttribute> dataAttributeList = new ArrayList<DataAttribute>();
+        List<DataAttribute> dataAttributeList = new ArrayList<>();
         if (dataList != null && !dataList.isEmpty()) {
-            switch (keyword){
-                case "FirstName":
+            switch (keyword.toLowerCase()){
+                case "firstname":
                     dataList.forEach(data -> {
-                        if (data.getFirstName().equals(value))
+                        if (data.getFirstName().equalsIgnoreCase(value))
                             dataAttributeList.add(data);
                     });
                     break;
-                case "LastName":
+                case "lastname":
                     dataList.forEach(data -> {
-                        if (data.getLastName().equals(value))
+                        if (data.getLastName().equalsIgnoreCase(value))
                             dataAttributeList.add(data);
                     });
                     break;
-                case "Age":
+                case "age":
                     dataList.forEach(data -> {
                         if (data.getAge().equals(Integer.parseInt(value)))
                             dataAttributeList.add(data);
                     });
                     break;
-                case "Email":
+                case "email":
                     dataList.forEach(data -> {
-                        if (data.getEmail().equals(value))
+                        if (data.getEmail().equalsIgnoreCase(value))
                             dataAttributeList.add(data);
                     });
                     break;

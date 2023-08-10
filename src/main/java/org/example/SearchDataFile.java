@@ -10,11 +10,23 @@ public class SearchDataFile {
     public static void main(String[] args) {
         CSVFileParser parser = new CSVFileParser();
         ISearchEngine searchEngine = new SearchEngineImpl();
-        SearchFileDto csvContentData = searchEngine.GetAllData("SampleCSVFile.csv");
-        if (csvContentData == null) return;
-        List<DataAttribute> searchedResult = searchEngine.SearchSingleAttribute(csvContentData.Attributes, "Age", "22");
+        if (args.length < 3) {
+            System.out.println("Please provide the following arguments:");
+            System.out.println("First argument should be either a csv file name or file path.");
+            System.out.println("Second argument should be which attribute you want to searching for, i.e 'FirstName' or 'LastName'.");
+            System.out.println("Third argument should be attribute value you are looking for.");
+            System.out.println("Fourth argument should be either a csv output file name or file path.[Optional]");
+            return;
+        }
+        SearchFileDto csvContentData = searchEngine.GetAllData(args[0].replace("\\", "\\\\"));
+        if (csvContentData == null) {
+            System.out.println("No data is found in the csv file!!!");
+            return;
+        }
+        List<DataAttribute> searchedResult = searchEngine.SearchSingleAttribute(csvContentData.Attributes, args[1], args[2]);
         System.out.println("The searched result:");
         searchedResult.forEach(d -> System.out.println(d.toString()));
-        parser.WriteDataIntoCSV("Output.csv", searchedResult);
+        String outputPath = args.length > 3 ? args[3].replace("\\", "\\\\") : "Output.csv";
+        parser.WriteDataIntoCSV(outputPath, searchedResult);
     }
 }
